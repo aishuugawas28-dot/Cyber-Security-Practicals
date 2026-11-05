@@ -1,33 +1,36 @@
-# Cyber Security Practicals
+# Linux Log Analysis Practical
 
 ## About
-This repository contains cybersecurity practicals
-completed as part of my cybersecurity learning.
+This practical uses Kali Linux to inspect system logs, review login-session records, and identify authentication-related events.
 
 ## Tools Used
-- Nmap
-- Nessus
-- Metasploit
-- Wireshark
-- Snort IDS
-- DVWA
+- Kali Linux Terminal
+- `journalctl`
+- `grep`
+- `who`
+- `last`
 
+## Commands Used
+```bash
+ls -lh /var/log/
+who
+last -n 10
+sudo grep -i 'failed password' /var/log/auth.log | tail -20
+sudo journalctl -u ssh --no-pager -n 30
+sudo journalctl --no-pager | grep -Ei 'failed password|authentication failure|invalid user' | tail -20
+```
 
-## Practical Topics
-1. Network Scanning using Nmap
-2. Vulnerability Assessment using Nessus
-3. Network Traffic Analysis using Wireshark
-4. Intrusion Detection using Snort
-5. Web Application Security Testing using DVWA
-6. Static Malware Analysis
-7. Metasploit Lab Practice
+## Findings and Analysis
+- Older authentication-failure messages appeared for `lightdm` and `xfce4-screensaver-dialog`.
+- The SSH service query returned `-- No entries --` in the captured output.
+- Two matching records in the current-day filtered query were `sudo` command records generated while running the search. They are not confirmed failed login attempts.
+- The captured evidence does not establish malicious activity. Log entries should be interpreted in context.
 
-## Learning Objectives
-- Understand network scanning
-- Learn vulnerability assessment
-- Analyze network traffic
-- Understand intrusion detection
-- Practice web application security testing
+## Screenshots
+The `screenshots/` folder contains screenshot evidence extracted from the practical documentation. The original documentation is also included.
+
+## Conclusion
+Linux log analysis helps investigate login sessions and authentication events. Further contextual investigation is needed before classifying an event as suspicious.
 
 ## Disclaimer
-All security testing is performed in authorized lab environments.
+This practical is for educational purposes and uses logs from the lab environment. Observed authentication-failure messages alone do not prove malicious activity.
